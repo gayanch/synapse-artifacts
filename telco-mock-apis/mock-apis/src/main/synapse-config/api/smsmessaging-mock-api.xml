@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/smsmessaging" name="smsmessaging-mock-api" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/outbound/tel:+{msisdn}/requests">
+        <inSequence>
+            <log level="custom">
+                <property name="INFO" value="POST: /smsmessaging/outbound/{msisdn}/requests"/>
+                <property expression="get-property('uri.var.msisdn')" name="uri.var.msisdn"/>
+            </log>
+            <payloadFactory media-type="json">
+                <format>
+	            	{ 
+					    "outboundSMSMessageRequest": { 
+					        "address": [ 
+					            "tel:+00123456788"
+					        ], 
+					        "senderAddress": "$1", 
+					        "resourceURL": "https://example.com/smsmessaging/v1/outbound/tel%3A%2B7555/requests/smstran-207", 
+					        "senderName": "ACME Inc.", 
+					        "clientCorrelator": "123456", 
+					        "receiptRequest": { 
+					            "notifyURL": "http://application.example.com/notifications/DeliveryInfoNotification", 
+					            "callbackData": "some-data-useful-to-the-requester" 
+					        }, 
+					        "deliveryInfoList": { 
+					            "resourceURL": "https://example.com/smsmessaging/v1/outbound/tel%3A%2B7555/requests/smstran-207", 
+					            "deliveryInfo": [ 
+					                { 
+					                    "address": "tel:+00123456788", 
+					                    "deliveryStatus": "DeliveredToTerminal" 
+					                }
+					            ] 
+					        }, 
+					        "outboundSMSTextMessage": { 
+					            "message": "Hello World" 
+					        } 
+					    } 
+					}
+            	</format>
+                <args>
+                    <arg evaluator="json" expression="$.outboundSMSMessageRequest.senderAddress"/>
+                </args>
+            </payloadFactory>
+            <property name="HTTP_SC" scope="axis2" type="STRING" value="201"/>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="POST" uri-template="/outbound/subscriptions">
+        <inSequence>
+            <log level="custom">
+                <property name="INFO" value="POST: /outbound/subscriptions"/>
+                <property expression="get-property('uri.var.msisdn')" name="uri.var.msisdn"/>
+            </log>
+            <payloadFactory media-type="json">
+                <format>
+            		{ 
+					     "deliveryReceiptSubscription": { 
+					         "callbackReference": { 
+					                 "callbackData": "12345", 
+					                 "notifyURL": "http://application.example.com/notifications/DeliveryInfoNotification" 
+					         }, 
+					         "senderAddresses":[{  
+					            "senderAddress":"3456",
+					            "operatorCode":"OPERATOR1",
+					            "filterCriteria":"Vote"
+					         }
+					      	],
+					         "resourceURL": "http://example.com/smsmessaging/v1/outbound/subscriptions/sub789" 
+					     } 
+					}
+            	</format>
+                <args/>
+            </payloadFactory>
+            <property name="HTTP_SC" scope="axis2" type="STRING" value="201"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

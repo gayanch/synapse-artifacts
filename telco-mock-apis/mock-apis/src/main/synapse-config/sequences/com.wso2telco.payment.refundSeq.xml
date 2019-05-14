@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="com.wso2telco.payment.refundSeq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <payloadFactory media-type="json">
+        <format>
+         	{"amountTransaction": { 
+			   "clientCorrelator": "$1", 
+			   "endUserId": "$2", 
+			   "paymentAmount": { 
+			       "chargingInformation": { 
+			           "amount": "10", 
+			           "currency": "USD", 
+			           "description": "Alien Invaders Game" 
+			       }, 
+			       "totalAmountCharged": "12.99", 
+			       "chargingMetaData" : { 
+			           "onBehalfOf" : "Example Games Inc", 
+			           "purchaseCategoryCode" : "Game", 
+			           "channel" : "WAP", 
+			           "taxAmount" : "0" 
+			       } 
+			   }, 
+			   	"referenceCode": "REF-12345",
+				"serverReferenceCode": "ABC-123", 
+				"resourceURL": "http://example.com/payment/v1/$1/transactions/amount/transactionid-25", 
+				"transactionOperationStatus": "Refunded" 
+			}}
+         </format>
+        <args>
+            <arg evaluator="json" expression="$.amountTransaction.clientCorrelator"/>
+            <arg evaluator="json" expression="$.amountTransaction.endUserId"/>
+        </args>
+    </payloadFactory>
+    <property name="HTTP_SC" scope="axis2" type="STRING" value="201"/>
+    <respond/>
+</sequence>

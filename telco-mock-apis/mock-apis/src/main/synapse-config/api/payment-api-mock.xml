@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/payment" name="payment-api-mock" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/{msisdn}/transactions/amount">
+        <inSequence>
+            <switch source="json-eval($.amountTransaction.transactionOperationStatus)">
+                <case regex="Charged">
+                    <sequence key="com.wso2telco.payment.chargeSeq"/>
+                </case>
+                <case regex="Refunded">
+                    <sequence key="com.wso2telco.payment.refundSeq"/>
+                </case>
+                <default>
+                    <log level="custom">
+                        <property name="PAYMENT_API" value="Unknown operation invoked"/>
+                    </log>
+                </default>
+            </switch>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="GET" uri-template="/{msisdn}/transactions">
+        <inSequence>
+            <property expression="get-property('uri.var.msisdn')" name="uri.var.msisdn" scope="default" type="STRING"/>
+            <sequence key="com.wso2telco.payment.listChargeSeq"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

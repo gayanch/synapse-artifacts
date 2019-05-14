@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="payment-api-mock" groupId="com.example.mock-apis.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/payment-api-mock.xml</file>
+    </artifact>
+    <artifact name="smsmessaging-mock-api" groupId="com.example.mock-apis.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/smsmessaging-mock-api.xml</file>
+    </artifact>
+    <artifact name="com.wso2telco.payment.chargeSeq" groupId="com.example.mock-apis.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/com.wso2telco.payment.chargeSeq.xml</file>
+    </artifact>
+    <artifact name="com.wso2telco.payment.refundSeq" groupId="com.example.mock-apis.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/com.wso2telco.payment.refundSeq.xml</file>
+    </artifact>
+    <artifact name="com.wso2telco.payment.listChargeSeq" groupId="com.example.mock-apis.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/com.wso2telco.payment.listChargeSeq.xml</file>
+    </artifact>
+</artifacts>

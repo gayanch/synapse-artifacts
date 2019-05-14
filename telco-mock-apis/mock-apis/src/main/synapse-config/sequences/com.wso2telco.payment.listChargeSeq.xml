@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="com.wso2telco.payment.listChargeSeq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="custom">
+        <property name="PAYMENT_API" value="List charge operation invoked"/>
+        <property expression="get-property('uri.var.msisdn')" name="DEBUG"/>
+    </log>
+    <payloadFactory media-type="json">
+        <format>
+			{
+				"paymentTransactionList": {
+					"amountTransaction": [{
+							"endUserId": "$1",
+							"paymentAmount": {
+								"chargingInformation": {
+									"amount": "9",
+									"currency": "USD",
+									"description": "Alien Invaders"
+								}
+							},
+							"referenceCode": "REF-ASM600-239238",
+							"serverReferenceCode": "tx-a3c0e4e006da40a8a5b5-045972478cc3",
+							"resourceURL": "http://example.com/payment/v1/tel:+00123456789/transactions/amount/transactionid-1",
+							"transactionOperationStatus": "Charged"
+						},
+						{
+							"endUserId": "$1",
+							"paymentAmount": {
+								"chargingInformation": {
+									"amount": "6",
+									"currency": "USD",
+									"description": " Snakes Alive "
+								}
+							},
+							"referenceCode": "REF-ASM600-2392344",
+							"serverReferenceCode": "tx-a3c0e4e006da60a8a5b5-044972478cc3",
+							"resourceURL": "http: //example.com/payment/v1/tel:+00123456789/transactions/amount/transactionid-2",
+							"transactionOperationStatus": "Charged"
+						}
+					],
+					"resourceURL": "http: //example.com/payment/v1/tel:+00123456789/transactions"
+				}
+			}
+		</format>
+        <args>
+            <arg evaluator="xml" expression="get-property('uri.var.msisdn')"/>
+        </args>
+    </payloadFactory>
+    <property name="HTTP_SC" scope="axis2" type="STRING" value="200"/>
+    <respond/>
+</sequence>
